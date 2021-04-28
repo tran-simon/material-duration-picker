@@ -46,7 +46,7 @@ const Comp = () => {
 ```
 
 
-https://user-images.githubusercontent.com/8755930/116327648-41c00100-a795-11eb-9446-ec7d57fae7a4.mp4
+[demo](https://user-images.githubusercontent.com/8755930/116327648-41c00100-a795-11eb-9446-ec7d57fae7a4.mp4)
 
 
 
