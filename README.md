@@ -2,6 +2,9 @@
 
 Simple duration picker inspired by [Material-UI Pickers](https://material-ui-pickers.dev/)
 
+![image](https://user-images.githubusercontent.com/8755930/116327819-96fc1280-a795-11eb-96a6-e10722fe5b56.png)
+
+
 ## To install
 
 ```bash
@@ -41,6 +44,11 @@ const Comp = () => {
   );
 }
 ```
+
+
+https://user-images.githubusercontent.com/8755930/116327648-41c00100-a795-11eb-9446-ec7d57fae7a4.mp4
+
+
 
 ### Props
 
