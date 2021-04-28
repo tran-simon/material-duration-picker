@@ -22,7 +22,7 @@ export const ValueField = ({value: _value, onConfirm, ...props}: ValueFieldProps
       onBlur={() => {
         onConfirm(value)
       }}
-      value={value}
+      value={value ?? ''}
       {...props}
     />
   )

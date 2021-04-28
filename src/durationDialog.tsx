@@ -1,73 +1,103 @@
-import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogProps, Grid, Toolbar, Typography} from "@material-ui/core";
-import {getMinutes, getSeconds, setMinutes, setSeconds} from "date-fns";
+import React, {useEffect, useState} from "react";
+import {Button, Dialog, DialogActions, DialogContent, DialogProps, Grid, Toolbar, Typography, useTheme} from "@material-ui/core";
 import {ValueField} from "./valueField";
-import {DATE_ZERO, valueToFormattedDuration} from "./utils";
+import {DurationType, Labels, ValueFieldView} from "./types";
 
 export type DurationDialogProps = DialogProps & {
-  date: Date | null,
+  duration: DurationType
   onDismiss: () => void;
-  onAccept: (value: Date | null) => void
+  onAccept: (duration: DurationType) => void
+
+  views: ValueFieldView[]
+  labels?: Labels
+  formatDuration: (duration: DurationType) => string
 }
 
+const DefaultDurationDialogLabels: Labels = {
+  cancel: 'CANCEL',
+  ok: 'OK',
+  weeks: 'Weeks',
+  days: 'Days',
+  hours: 'Hours',
+  minutes: 'Minutes',
+  seconds: 'Seconds',
+}
 
-export const DurationDialog = ({date: _date, onDismiss, onAccept, ...props}: DurationDialogProps) => {
-  const [value, setValue] = useState(_date)
+export const DurationDialog = ({
+  duration: _duration,
+  onDismiss,
+  onAccept,
+  views,
+  labels: _labels,
+  formatDuration,
+  ...props
+}: DurationDialogProps) => {
+  const theme = useTheme()
+  const [duration, setDuration] = useState(_duration)
+
+  useEffect(() => {
+    setDuration(_duration)
+  }, [_duration, setDuration])
+
+  const labels = {
+    ...DefaultDurationDialogLabels,
+    ..._labels
+  }
 
   return (
     <Dialog
       fullWidth
-      onClose={
-        () => onDismiss()
-      }
+      onClose={() => onDismiss()}
       {...props}
     >
+      <Toolbar style={{
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText
+      }}>
+        <Typography variant='h4'>
+          {duration && formatDuration(duration)}
+        </Typography>
+      </Toolbar>
       <DialogContent>
-        <Toolbar>
-          <Typography variant='h4'>
-            {valueToFormattedDuration(value)}
-          </Typography>
-        </Toolbar>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ValueField
-              label='min'
-              value={value && getMinutes(value)}
-              onConfirm={((v) => {
-                setValue(setMinutes(value || DATE_ZERO, v || 0));
-              })}
-            />
-          </Grid>
-          <Grid item>
-            <ValueField
-              label='seconds'
-              value={value && getSeconds(value)}
-              onConfirm={((v) => {
-                setValue(setSeconds(value || DATE_ZERO, v || 0));
-              })}
-            />
-          </Grid>
+        <Grid container spacing={2} justify='space-around'>
+          {views.map((view, i) => {
+            const value = duration[view]
+            return (
+              <Grid item key={i}>
+                <ValueField
+                  label={labels[view]}
+                  value={value || null}
+                  onConfirm={(v) => {
+                    setDuration({
+                      ...duration,
+                      [view]: v
+                    })
+                  }}/>
+              </Grid>
+            );
+          })}
         </Grid>
-
-
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => {
-          onDismiss()
-        }}>
-          CANCEL
+        <Button
+          onClick={() => {
+            onDismiss()
+          }}
+          color='primary'
+        >
+          {labels.cancel}
         </Button>
-        <Button onClick={() => {
-          onAccept(value)
-          onDismiss();
-        }}>
-          OK
+        <Button
+          onClick={() => {
+            onAccept(duration)
+            onDismiss();
+          }}
+          color='primary'
+        >
+          {labels.ok}
         </Button>
       </DialogActions>
-
-
     </Dialog>
-  )
-    ;
+  );
 }
 
