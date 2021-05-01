@@ -55,7 +55,8 @@ const Comp = () => {
 * value: (REQUIRED) The duration value in seconds
 * onValueChange: (REQUIRED) On change callback
 * formatDuration: function to customize the way that the duration is formatted
-* views: Array of field views to offer. **MUST BE FROM BIGGEST TO SMALLEST** ex: ['weeks', 'minutes', 'seconds']
+* views: Array of views to offer. **MUST BE FROM BIGGEST TO SMALLEST** ex: ['weeks', 'minutes', 'seconds']
+* disableEditDialog: If should not enable the edit dialog on click of the field 
 * DurationDialogProps: Props passed to the dialog
 
 Remaining props are passed to the TextField component

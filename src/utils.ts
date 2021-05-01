@@ -1,14 +1,16 @@
-import {DurationType, ValueFieldView} from "./types";
+import {DurationType, DurationView} from "./types";
 
-export const getValue = (secs: number | null, view: ValueFieldView): number | undefined => {
+export const VIEWS: DurationView[] = ['weeks', 'days', 'hours', 'minutes', 'seconds']
+
+export const getValue = (secs: number | null, view: DurationView): number | undefined => {
   return secs === null ? undefined : Math.floor(secs / toSecondsMultipliers[view])
 }
 
-export const getRemainder = (secs: number | null, view: ValueFieldView): number | undefined => {
+export const getRemainder = (secs: number | null, view: DurationView): number | undefined => {
   return secs === null ? undefined : secs % toSecondsMultipliers[view]
 }
 
-export const toSecondsMultipliers: { [key in ValueFieldView]: number } = {
+export const toSecondsMultipliers: { [key in DurationView]: number } = {
   seconds: 1,
   minutes: 60,
   hours: 60 * 60,
@@ -16,7 +18,7 @@ export const toSecondsMultipliers: { [key in ValueFieldView]: number } = {
   weeks: 60 * 60 * 24 * 7
 }
 
-export const timeToDuration = (time: number | null, views: ValueFieldView[])=>{
+export const timeToDuration = (time: number | null)=>{
   const duration: DurationType  = {
     weeks: undefined,
     days: undefined,
@@ -25,20 +27,20 @@ export const timeToDuration = (time: number | null, views: ValueFieldView[])=>{
     seconds: undefined,
   }
 
-  views.reduce((value, view)=>{
+  VIEWS.reduce((value, view)=>{
     if(value === null){
       return null
     }
-    duration[view] = getValue(value, view);
+    duration[view] = getValue(value, view) || undefined;
     return getRemainder(value, view) || 0
   }, time)
 
   return  duration
 }
 
-export const durationToTime = (duration: DurationType, views: ValueFieldView[])=>{
+export const durationToTime = (duration: DurationType)=>{
 
-  return views.reduce((time, view) =>{
+  return VIEWS.reduce((time, view) =>{
     const v = duration[view] || 0
     return time + v * toSecondsMultipliers[view]
   }, 0)

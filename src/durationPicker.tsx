@@ -2,14 +2,15 @@ import React, {useState} from "react";
 import {TextField, TextFieldProps} from "@material-ui/core";
 import {durationToTime, timeToDuration} from "./utils";
 import {DurationDialog, DurationDialogProps} from "./durationDialog";
-import {DurationType, ValueFieldView} from "./types";
+import {DurationType, DurationView} from "./types";
 
 
 export type DurationPickerProps = Partial<TextFieldProps> & {
   value: number | null,
   onValueChange: (value: number | null) => void;
   formatDuration: (duration: DurationType) => string
-  views?: ValueFieldView[]
+  disableEditDialog?: boolean;
+  views?: DurationView[]
   DurationDialogProps?: Partial<DurationDialogProps>
 }
 
@@ -19,16 +20,17 @@ export const DurationPicker = ({
   onValueChange,
   formatDuration,
   views = ['hours', 'minutes'],
+  disableEditDialog,
   ...props
 }: DurationPickerProps) => {
   const [open, setOpen] = useState(false)
 
-  const duration = timeToDuration(value, views)
+  const duration = timeToDuration(value)
 
   return <>
     <TextField
-      onClick={(e) => {
-        setOpen(true)
+      onClick={() => {
+        !disableEditDialog && setOpen(true);
       }}
       value={formatDuration(duration)}
 
@@ -43,16 +45,18 @@ export const DurationPicker = ({
         ...props?.inputProps
       }}
     />
-    <DurationDialog
-      duration={duration}
-      open={open}
-      onDismiss={() => setOpen(false)}
-      onAccept={(duration) => {
-        onValueChange(durationToTime(duration, views))
-      }}
-      views={views}
-      formatDuration={formatDuration}
-      {...DurationDialogProps}
-    />
+    {!disableEditDialog && (
+      <DurationDialog
+        duration={duration}
+        open={open}
+        onDismiss={() => setOpen(false)}
+        onAccept={(duration) => {
+          onValueChange(durationToTime(duration))
+        }}
+        views={views}
+        formatDuration={formatDuration}
+        {...DurationDialogProps}
+      />
+    )}
   </>;
 };

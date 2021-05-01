@@ -1,26 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogProps, Grid, Toolbar, Typography, useTheme} from "@material-ui/core";
-import {ValueField} from "./valueField";
-import {DurationType, Labels, ValueFieldView} from "./types";
+import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typography, useTheme} from "@material-ui/core";
+import {DurationType, DurationView, Labels} from "./types";
+import {DurationFieldsContainer, DurationFieldsContainerProps} from "./durationFieldsContainer";
+import DefaultLabels from './defaultLabelsEn.json'
 
 export type DurationDialogProps = DialogProps & {
   duration: DurationType
   onDismiss: () => void;
   onAccept: (duration: DurationType) => void
 
-  views: ValueFieldView[]
+  views: DurationView[]
   labels?: Labels
-  formatDuration: (duration: DurationType) => string
-}
+  formatDuration: (duration: DurationType) => string;
 
-const DefaultDurationDialogLabels: Labels = {
-  cancel: 'CANCEL',
-  ok: 'OK',
-  weeks: 'Weeks',
-  days: 'Days',
-  hours: 'Hours',
-  minutes: 'Minutes',
-  seconds: 'Seconds',
+  DurationFieldsContainerProps?: Partial<DurationFieldsContainerProps>
 }
 
 export const DurationDialog = ({
@@ -30,6 +23,7 @@ export const DurationDialog = ({
   views,
   labels: _labels,
   formatDuration,
+  DurationFieldsContainerProps,
   ...props
 }: DurationDialogProps) => {
   const theme = useTheme()
@@ -40,7 +34,7 @@ export const DurationDialog = ({
   }, [_duration, setDuration])
 
   const labels = {
-    ...DefaultDurationDialogLabels,
+    ...DefaultLabels,
     ..._labels
   }
 
@@ -59,24 +53,7 @@ export const DurationDialog = ({
         </Typography>
       </Toolbar>
       <DialogContent>
-        <Grid container spacing={2} justify='space-around'>
-          {views.map((view, i) => {
-            const value = duration[view]
-            return (
-              <Grid item key={i}>
-                <ValueField
-                  label={labels[view]}
-                  value={value || null}
-                  onConfirm={(v) => {
-                    setDuration({
-                      ...duration,
-                      [view]: v
-                    })
-                  }}/>
-              </Grid>
-            );
-          })}
-        </Grid>
+        <DurationFieldsContainer views={views} duration={duration} setDuration={setDuration} {...DurationFieldsContainerProps}/>
       </DialogContent>
       <DialogActions>
         <Button
