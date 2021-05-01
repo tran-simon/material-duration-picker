@@ -1,4 +1,4 @@
-import {durationToTime, timeToDuration} from "../utils";
+import {durationToTime, getDurationOverflow, timeToDuration} from "../utils";
 
 
 describe('timeToDuration', ()=>{
@@ -58,5 +58,34 @@ describe('durationToTime', ()=>{
     const expected = 604800 + 10800 + 5;
 
     expect(durationToTime(duration)).toEqual(expected)
+  })
+
+  it('can durationToTime with a view', ()=>{
+    const duration = {
+      weeks: undefined,
+      days: undefined,
+      hours: 1,
+      minutes: 2,
+      seconds: 30,
+    }
+    const expected = 62.5
+
+    expect(durationToTime(duration, 'minutes')).toEqual(expected)
+  })
+})
+
+describe('getDurationOverflow', ()=>{
+  it('can getDurationOverflow', ()=>{
+    const duration = {
+      weeks: undefined,
+      days: 2,
+      hours: 3,
+      minutes: 4,
+      seconds: 5
+    }
+
+    const expected = 2 * 24 * 60 + 3 * 60
+
+    expect(getDurationOverflow(duration, 'minutes')).toEqual(expected)
   })
 })

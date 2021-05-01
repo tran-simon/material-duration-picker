@@ -3,6 +3,7 @@ import React, {Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
+import {getDurationOverflow, VIEWS} from "./utils";
 
 
 export type DurationFieldsContainerProps = {
@@ -33,15 +34,19 @@ export const DurationFieldsContainer = ({
   return (
     <Grid container spacing={2} justify='space-around' {...GridContainerProps}>
       {views.map((view, i) => {
+        const acc = i === 0 ? getDurationOverflow(duration, view) : 0
+
+        const value = ((duration[view] || 0) + acc) || null
+
         return (
           <Grid item key={i} {...GridItemProps}>
             <DurationField
               label={labels[view]}
-              value={duration[view] || null}
+              value={value}
               onConfirm={(v) => {
                 setDuration({
                   ...duration,
-                  [view]: v
+                  [view]: (v || 0) - acc
                 })
               }}
               {...DurationFieldProps}

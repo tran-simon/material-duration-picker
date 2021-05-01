@@ -23,6 +23,7 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input"
+            title="fieldTitle"
             type="number"
             value="5"
           />
@@ -47,6 +48,7 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input"
+            title="fieldTitle"
             type="number"
             value="2"
           />

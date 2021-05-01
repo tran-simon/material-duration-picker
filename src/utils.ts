@@ -18,30 +18,71 @@ export const toSecondsMultipliers: { [key in DurationView]: number } = {
   weeks: 60 * 60 * 24 * 7
 }
 
-export const timeToDuration = (time: number | null)=>{
-  const duration: DurationType  = {
-    weeks: undefined,
-    days: undefined,
-    hours: undefined,
-    minutes: undefined,
-    seconds: undefined,
-  }
+export const timeToDuration = (time: number | null) => {
+  const duration: DurationType = {};
 
-  VIEWS.reduce((value, view)=>{
-    if(value === null){
+  VIEWS.reduce((value, view) => {
+    if (value === null) {
       return null
     }
     duration[view] = getValue(value, view) || undefined;
     return getRemainder(value, view) || 0
   }, time)
 
-  return  duration
+  return duration
 }
 
-export const durationToTime = (duration: DurationType)=>{
+/**
+ * Convert a duration to a time value of a view
+ * If no view is specified, will convert to seconds
+ *
+ * Ex:
+ * duration: {
+ *   hours: 1,
+ *   minutes: 2
+ *   seconds: 30
+ * }
+ * view: minutes
+ *
+ * res: 62.5
+ */
+export const durationToTime = (duration: DurationType, view?: DurationView) => {
 
-  return VIEWS.reduce((time, view) =>{
+  const seconds = VIEWS.reduce((time, view) => {
     const v = duration[view] || 0
     return time + v * toSecondsMultipliers[view]
   }, 0)
+
+  return view ? seconds / toSecondsMultipliers[view] : seconds
+}
+
+/**
+ * Get the time value from a duration by adding the values of the views greater than 'view'
+ *
+ * Ex:
+ * duration: {
+ *   days: 1,
+ *   hours: 1,
+ *   minutes: 1,
+ *   seconds: 1,
+ * }
+ * view: 'minutes'
+ *
+ * res:
+ *     (days * 24 * 60) + (hours * 60)
+ *     = 24 * 60 + 60 = 1500
+ *
+ * @param duration The duration object
+ * @param view The view up to it will add
+ */
+export const getDurationOverflow = (duration: DurationType, view: DurationView): number => {
+  let acc = 0;
+  for (const key of VIEWS) {
+    if (key === view) {
+      break;
+    }
+
+    acc += (duration[key] || 0) * toSecondsMultipliers[key] / toSecondsMultipliers[view]
+  }
+  return acc
 }
