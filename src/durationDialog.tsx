@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import * as React from 'react'
+import {useEffect, useState} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typography, useTheme} from "@material-ui/core";
 import {DurationType, DurationView, Labels} from "./types";
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "./durationFieldsContainer";

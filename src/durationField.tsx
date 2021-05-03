@@ -1,5 +1,6 @@
 import {TextField, TextFieldProps} from "@material-ui/core";
-import React, {useEffect, useState} from "react";
+import * as React from 'react'
+import {useEffect, useState} from "react";
 
 export type DurationFieldProps = TextFieldProps & {
   value: number | null

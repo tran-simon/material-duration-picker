@@ -10,23 +10,28 @@
 		"duration-picker",
 		"durations"
 	],
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"author": "tran-simon",
 	"repository": "https://github.com/tran-simon/material-duration-picker",
 	"peerDependencies": {
 		"@material-ui/core": "^4.9.1",
-		"@types/react": "^16.9.0",
+		"@types/react": "^16.8.4",
 		"@types/react-dom": "^16.9.0",
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0"
+		"react": "^16.8.4",
+		"react-dom": "^16.8.4"
 	},
 	"devDependencies": {
+		"@material-ui/core": "^4.9.1",
 		"@testing-library/jest-dom": "^5.12.0",
 		"@testing-library/react": "^11.2.6",
 		"@types/jest": "^26.0.23",
 		"@types/node": "^12.0.0",
+		"@types/react": "^16.8.4",
+		"@types/react-dom": "^16.9.0",
+		"react": "^16.8.4",
+		"react-dom": "^16.8.4",
 		"ts-jest": "^26.5.5",
 		"typescript": "^4.2.4"
 	},
@@ -34,7 +39,8 @@
 		"build": "tsc",
 		"start": "tsc -w",
 		"test": "jest",
-		"clean": "rm -rf dist"
+		"clean": "rm -rf dist",
+		"deploy": "npm run clean && npm install && npm run build && npm run test && npm publish"
 	},
 	"files": [
 		"dist"

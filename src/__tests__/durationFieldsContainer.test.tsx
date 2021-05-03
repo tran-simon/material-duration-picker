@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {render, waitFor, screen, fireEvent} from '@testing-library/react'
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "../durationFieldsContainer";
 

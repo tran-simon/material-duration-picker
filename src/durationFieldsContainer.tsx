@@ -1,9 +1,10 @@
 import {Grid, GridProps} from '@material-ui/core';
-import React, {Dispatch} from 'react'
+import * as React from 'react'
+import {Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
-import {getDurationOverflow, VIEWS} from "./utils";
+import {getDurationOverflow} from "./utils";
 
 
 export type DurationFieldsContainerProps = {

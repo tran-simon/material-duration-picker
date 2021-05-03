@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import * as React from 'react'
+import {useState} from "react";
 import {TextField, TextFieldProps} from "@material-ui/core";
 import {durationToTime, timeToDuration} from "./utils";
 import {DurationDialog, DurationDialogProps} from "./durationDialog";
