@@ -7,8 +7,8 @@ describe('DurationFieldsContainer', () => {
   const emptyDuration = {};
 
   const Comp = ({
-    views = ['minutes', 'seconds'],
-    duration = {...emptyDuration, minutes: 5, seconds: 2},
+    views = ['hours', 'minutes'],
+    duration = {...emptyDuration, hours: 5, minutes: 2},
     setDuration = setDurationMock,
     ...props
   }: Partial<DurationFieldsContainerProps>) => {
@@ -44,22 +44,23 @@ describe('DurationFieldsContainer', () => {
     const utils = render(
       <Comp duration={{
         ...emptyDuration,
+        days: 1,
         hours: 1,
         minutes: 1,
-        seconds: 1
+        seconds: 30,
       }}/>
     );
     const fields: any[] = utils.getAllByTitle('fieldTitle')
-    expect(fields[0].value).toBe("61")
-    expect(fields[1].value).toBe("1")
+    expect(fields[0].value).toBe("25")
+    expect(fields[1].value).toBe("1.5")
   });
 
-  it('can setDuration to greater than views show', async () => {
+  it('can setDuration to smaller than views show', async () => {
     const utils = render(
       <Comp duration={{
         ...emptyDuration,
-        minutes: 1,
-        seconds: 1
+        hours: 1,
+        minutes: 1
       }}/>
     );
 
@@ -73,9 +74,34 @@ describe('DurationFieldsContainer', () => {
     expect(setDurationMock).toHaveBeenCalledWith({
       weeks: undefined,
       days: undefined,
-      hours: undefined,
-      minutes: 61,
-      seconds: 1
+      hours: 61,
+      minutes: 1,
+      seconds: undefined
+    })
+  })
+
+  it('can setDuration to smaller than views show', async () => {
+    const utils = render(
+      <Comp duration={{
+        ...emptyDuration,
+        hours: 1,
+        minutes: 1
+      }}/>
+    );
+
+    const fields: any[] = utils.getAllByTitle('fieldTitle')
+
+    fireEvent.change(fields[1], {target: {value: '0.5'}})
+    fireEvent.blur(fields[1])
+
+    expect(fields[1].value).toBe('0.5')
+
+    expect(setDurationMock).toHaveBeenCalledWith({
+      weeks: undefined,
+      days: undefined,
+      hours: 1,
+      minutes: 0.5,
+      seconds: undefined
     })
   })
 })

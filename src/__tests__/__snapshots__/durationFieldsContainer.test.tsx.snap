@@ -6,13 +6,13 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-xs-space-around"
   >
     <div
-      class="MuiGrid-root MuiGrid-item"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
     >
       <div
-        class="MuiFormControl-root MuiTextField-root"
+        class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
       >
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
         >
           <input
             aria-invalid="false"
@@ -25,13 +25,13 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
     >
       <div
-        class="MuiFormControl-root MuiTextField-root"
+        class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
       >
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
         >
           <input
             aria-invalid="false"

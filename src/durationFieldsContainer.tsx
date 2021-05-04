@@ -4,7 +4,7 @@ import {Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
-import {getDurationOverflow} from "./utils";
+import {getDurationOverflow, getDurationUnderflow} from "./utils";
 
 
 export type DurationFieldsContainerProps = {
@@ -26,7 +26,7 @@ export const DurationFieldsContainer = ({
   GridItemProps,
   GridContainerProps,
   DurationFieldProps
-}: DurationFieldsContainerProps)=>{
+}: DurationFieldsContainerProps) => {
   const labels = {
     ...DefaultLabels,
     ..._labels
@@ -35,12 +35,16 @@ export const DurationFieldsContainer = ({
   return (
     <Grid container spacing={2} justify='space-around' {...GridContainerProps}>
       {views.map((view, i) => {
-        const acc = i === 0 ? getDurationOverflow(duration, view) : 0
+        const acc = i === 0 ?
+          getDurationOverflow(duration, view) :
+          i === views.length - 1 ?
+            getDurationUnderflow(duration, view) :
+            0
 
         const value = ((duration[view] || 0) + acc) || null
 
         return (
-          <Grid item key={i} {...GridItemProps}>
+          <Grid item key={i} xs {...GridItemProps}>
             <DurationField
               label={labels[view]}
               value={value}

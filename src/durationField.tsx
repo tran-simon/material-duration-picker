@@ -18,12 +18,13 @@ export const DurationField = ({value: _value, onConfirm, ...props}: DurationFiel
       type="number"
       onChange={({target}) => {
         const num = +target.value
-        setValue(isNaN(num) ? null : num);
+        setValue(isNaN(num) || !target.value ? null : num);
       }}
       onBlur={() => {
         onConfirm(value)
       }}
       value={value ?? ''}
+      fullWidth
       {...props}
     />
   )

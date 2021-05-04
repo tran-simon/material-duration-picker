@@ -86,3 +86,33 @@ export const getDurationOverflow = (duration: DurationType, view: DurationView):
   }
   return acc
 }
+
+/**
+ * Get the time value from a duration by adding the values of the views smaller than 'view'
+ *
+ * Ex:
+ * duration: {
+ *   minutes: 1,
+ *   seconds: 1,
+ * }
+ * view: 'minutes'
+ *
+ * res:
+ *     (seconds)
+ *     = 1 * 1/60 = 0.016666
+ *
+ * @param duration The duration object
+ * @param view The view up to it will add
+ */
+export const getDurationUnderflow = (duration: DurationType, view: DurationView): number => {
+  let acc = 0;
+  const reversedViews = [...VIEWS].reverse()
+  for (const key of reversedViews) {
+    if (key === view) {
+      break;
+    }
+
+    acc += (duration[key] || 0) / toSecondsMultipliers[view] * toSecondsMultipliers[key]
+  }
+  return acc
+}

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`durationPicker can match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiFormControl-root MuiTextField-root"
+  >
+    <div
+      class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiInput-input"
+        readonly=""
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+  <div>
+    {"weeks":1,"days":2,"hours":3,"minutes":4,"seconds":5}
+  </div>
+</DocumentFragment>
+`;
