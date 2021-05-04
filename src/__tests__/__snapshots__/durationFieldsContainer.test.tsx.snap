@@ -11,6 +11,12 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
       <div
         class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
       >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+          data-shrink="true"
+        >
+          Hours
+        </label>
         <div
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
         >
@@ -30,6 +36,12 @@ exports[`DurationFieldsContainer can match snapshot 1`] = `
       <div
         class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
       >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+          data-shrink="true"
+        >
+          Minutes
+        </label>
         <div
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
         >
