@@ -1,6 +1,6 @@
 import {Grid, GridProps} from '@material-ui/core';
 import * as React from 'react'
-import {Dispatch} from 'react'
+import {Component, ComponentType, Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
@@ -16,6 +16,8 @@ export type DurationFieldsContainerProps = {
   GridContainerProps?: GridProps;
   GridItemProps?: GridProps;
   DurationFieldProps?: Partial<DurationFieldProps>
+
+  DurationFieldComp?: ComponentType<DurationFieldProps>;
 }
 
 export const DurationFieldsContainer = ({
@@ -25,7 +27,8 @@ export const DurationFieldsContainer = ({
   labels: _labels,
   GridItemProps,
   GridContainerProps,
-  DurationFieldProps
+  DurationFieldProps,
+  DurationFieldComp = DurationField,
 }: DurationFieldsContainerProps) => {
   const labels = {
     ...DefaultLabels,
@@ -45,7 +48,7 @@ export const DurationFieldsContainer = ({
 
         return (
           <Grid item key={i} xs {...GridItemProps}>
-            <DurationField
+            <DurationFieldComp
               label={labels[view]}
               value={value}
               onConfirm={(v) => {
