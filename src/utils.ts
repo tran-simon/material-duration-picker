@@ -73,9 +73,11 @@ export const getValueFromDuration = (duration: DurationType, views: DurationView
       getDurationUnderflow(duration, views[i]) :
       0
 
+  const value = duration[views[i]]
+
   return {
     acc,
-    value: ((duration[views[i]] || 0) + acc) || null
+    value: value != null ? value + acc : null
   };
 }
 
