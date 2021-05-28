@@ -1,10 +1,10 @@
 import {Grid, GridProps} from '@material-ui/core';
 import * as React from 'react'
-import {Dispatch} from 'react'
+import {Component, ComponentType, Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
-import {getDurationOverflow, getDurationUnderflow} from "./utils";
+import {getDurationOverflow, getDurationUnderflow, getValueFromDuration} from "./utils";
 
 
 export type DurationFieldsContainerProps = {
@@ -16,6 +16,8 @@ export type DurationFieldsContainerProps = {
   GridContainerProps?: GridProps;
   GridItemProps?: GridProps;
   DurationFieldProps?: Partial<DurationFieldProps>
+
+  DurationFieldComp?: ComponentType<DurationFieldProps>;
 }
 
 export const DurationFieldsContainer = ({
@@ -25,7 +27,8 @@ export const DurationFieldsContainer = ({
   labels: _labels,
   GridItemProps,
   GridContainerProps,
-  DurationFieldProps
+  DurationFieldProps,
+  DurationFieldComp = DurationField,
 }: DurationFieldsContainerProps) => {
   const labels = {
     ...DefaultLabels,
@@ -35,18 +38,13 @@ export const DurationFieldsContainer = ({
   return (
     <Grid container spacing={2} justify='space-around' {...GridContainerProps}>
       {views.map((view, i) => {
-        const acc = i === 0 ?
-          getDurationOverflow(duration, view) :
-          i === views.length - 1 ?
-            getDurationUnderflow(duration, view) :
-            0
-
-        const value = ((duration[view] || 0) + acc) || null
+        const {value, acc} = getValueFromDuration(duration, views, i)
 
         return (
           <Grid item key={i} xs {...GridItemProps}>
-            <DurationField
-              label={labels[view]}
+            <DurationFieldComp
+              labels={labels}
+              view={view}
               value={value}
               onConfirm={(v) => {
                 setDuration({

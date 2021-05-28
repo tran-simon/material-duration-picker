@@ -57,6 +57,29 @@ export const durationToTime = (duration: DurationType, view?: DurationView) => {
 }
 
 /**
+ * Return them time value from the duration and a list of views for the view at index i
+ * @param duration The duration
+ * @param views List of views
+ * @param i Index of the view to use
+ * @return Object containing the value and 'acc', the amount added to the time from views that are greater or smaller than the targetted view.
+ */
+export const getValueFromDuration = (duration: DurationType, views: DurationView[], i: number): {
+  value: number | null;
+  acc: number;
+}=>{
+  const acc = i === 0 ?
+    getDurationOverflow(duration, views[i]) :
+    i === views.length - 1 ?
+      getDurationUnderflow(duration, views[i]) :
+      0
+
+  return {
+    acc,
+    value: ((duration[views[i]] || 0) + acc) || null
+  };
+}
+
+/**
  * Get the time value from a duration by adding the values of the views greater than 'view'
  *
  * Ex:

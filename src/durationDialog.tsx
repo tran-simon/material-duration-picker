@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useEffect, useState} from 'react'
+import {ComponentType, useEffect, useState} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typography, useTheme} from "@material-ui/core";
 import {DurationType, DurationView, Labels} from "./types";
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "./durationFieldsContainer";
@@ -15,6 +15,7 @@ export type DurationDialogProps = DialogProps & {
   formatDuration: (duration: DurationType) => string;
 
   DurationFieldsContainerProps?: Partial<DurationFieldsContainerProps>
+  DurationFieldsContainerComp?: ComponentType<DurationFieldsContainerProps>;
 }
 
 export const DurationDialog = ({
@@ -25,6 +26,7 @@ export const DurationDialog = ({
   labels: _labels,
   formatDuration,
   DurationFieldsContainerProps,
+  DurationFieldsContainerComp = DurationFieldsContainer,
   ...props
 }: DurationDialogProps) => {
   const theme = useTheme()
@@ -54,7 +56,7 @@ export const DurationDialog = ({
         </Typography>
       </Toolbar>
       <DialogContent>
-        <DurationFieldsContainer views={views} duration={duration} setDuration={setDuration} {...DurationFieldsContainerProps}/>
+        <DurationFieldsContainerComp views={views} duration={duration} setDuration={setDuration} {...DurationFieldsContainerProps}/>
       </DialogContent>
       <DialogActions>
         <Button
