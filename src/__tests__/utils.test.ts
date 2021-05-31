@@ -1,5 +1,23 @@
-import {durationToTime, getDurationOverflow, getDurationUnderflow, timeToDuration} from "../utils";
+import {durationToTime, getDurationOverflow, getDurationUnderflow, getValue, timeToDuration} from "../utils";
 
+describe('getValue', ()=>{
+  it('can getValue', ()=>{
+    expect(getValue(604800, 'weeks')).toEqual(1)
+    expect(getValue(600000, 'weeks')).toEqual(0)
+    expect(getValue(3600, 'hours')).toEqual(1)
+    expect(getValue(3600, 'minutes')).toEqual(60)
+    expect(getValue(75, 'minutes')).toEqual(1); //1.25 rounded down
+    expect(getValue(75, 'seconds')).toEqual(75)
+  })
+  it('can getValue with negatives', ()=>{
+    expect(getValue(-604800, 'weeks')).toEqual(-1)
+    expect(getValue(-600000, 'weeks')).toEqual(0)
+    expect(getValue(-3600, 'hours')).toEqual(-1)
+    expect(getValue(-3600, 'minutes')).toEqual(-60)
+    expect(getValue(-75, 'minutes')).toEqual(-1); //-1.25 rounded up
+    expect(getValue(-75, 'seconds')).toEqual(-75)
+  })
+})
 
 describe('timeToDuration', ()=>{
   it('can timeToDuration',()=>{
@@ -28,6 +46,19 @@ describe('timeToDuration', ()=>{
       seconds: 5
     }
     const time = 604800 + 10800 + 5;
+
+    expect(timeToDuration(time)).toEqual(expected)
+  })
+
+  it('can timeToDuration with negative values',()=>{
+    const expected = {
+      weeks: -1,
+      days: -2,
+      hours: -3,
+      minutes: -4,
+      seconds: -5
+    }
+    const time = -(604800 + 172800 + 10800 + 240 + 5);
 
     expect(timeToDuration(time)).toEqual(expected)
   })
@@ -71,6 +102,19 @@ describe('durationToTime', ()=>{
     const expected = 62.5
 
     expect(durationToTime(duration, 'minutes')).toEqual(expected)
+  })
+
+  it('can durationToTime with negative values', ()=>{
+    const duration = {
+      weeks: -1,
+      days: -2,
+      hours: -3,
+      minutes: -4,
+      seconds: -5
+    }
+    const expected = -(604800 + 172800 + 10800 + 240 + 5);
+
+    expect(durationToTime(duration)).toEqual(expected)
   })
 })
 

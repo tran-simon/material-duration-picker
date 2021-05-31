@@ -2,9 +2,28 @@ import {DurationType, DurationView} from "./types";
 
 export const VIEWS: DurationView[] = ['weeks', 'days', 'hours', 'minutes', 'seconds']
 
+/**
+ * Converts a number of seconds into a whole number of units of type view
+ *
+ * Ex:
+ * 75 seconds to minutes = 1.25 minutes. Rounded down = 1 minutes
+ *
+ * This works with negative numbers
+ * -75 seconds to minutes = -1.25 minutes. Rounded up = -1 minutes
+ *
+ * @param secs The number of seconds
+ * @param view The view
+ */
 export const getValue = (secs: number | null, view: DurationView): number | undefined => {
-  return secs === null ? undefined : Math.floor(secs / toSecondsMultipliers[view])
-}
+  /*
+     The bitwise operator is used to get the whole number.
+     https://stackoverflow.com/a/4228528/6592293
+   */
+
+  return secs === null ?
+    undefined :
+    secs / toSecondsMultipliers[view] | 0
+};
 
 export const getRemainder = (secs: number | null, view: DurationView): number | undefined => {
   return secs === null ? undefined : secs % toSecondsMultipliers[view]
