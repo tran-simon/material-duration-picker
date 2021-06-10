@@ -8,7 +8,7 @@ import {DurationType, DurationView} from "./types";
 
 export type DurationPickerProps = Partial<TextFieldProps> & {
   value: number | null,
-  onValueChange: (value: number | null) => void;
+  onValueChange: (value: number | undefined) => void;
   formatDuration: (duration: DurationType) => string
   disableEditDialog?: boolean;
   views?: DurationView[]

@@ -65,14 +65,17 @@ export const timeToDuration = (time: number | null) => {
  *
  * res: 62.5
  */
-export const durationToTime = (duration: DurationType, view?: DurationView) => {
+export const durationToTime = (duration: DurationType, view?: DurationView): number | undefined => {
 
-  const seconds = VIEWS.reduce((time, view) => {
-    const v = duration[view] || 0
-    return time + v * toSecondsMultipliers[view]
-  }, 0)
+  const seconds = VIEWS.reduce<undefined | number>((time, view) => {
+    const v = duration[view]
+    if (v == null) {
+      return time
+    }
+    return (time ?? 0) + v * toSecondsMultipliers[view];
+  }, undefined)
 
-  return view ? seconds / toSecondsMultipliers[view] : seconds
+  return view && seconds != null ? seconds / toSecondsMultipliers[view] : seconds
 }
 
 /**

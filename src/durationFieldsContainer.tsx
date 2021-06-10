@@ -49,7 +49,7 @@ export const DurationFieldsContainer = ({
               onConfirm={(v) => {
                 setDuration({
                   ...duration,
-                  [view]: (v || 0) - acc
+                  [view]: v != null ? v - acc : v
                 })
               }}
               {...DurationFieldProps}

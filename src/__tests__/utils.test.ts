@@ -116,6 +116,11 @@ describe('durationToTime', ()=>{
 
     expect(durationToTime(duration)).toEqual(expected)
   })
+
+
+  it('can durationToTime with undefined values', ()=>{
+    expect(durationToTime({})).toEqual(undefined)
+  })
 })
 
 describe('getDurationOverflow', ()=>{
