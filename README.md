@@ -60,3 +60,10 @@ const Comp = () => {
 * DurationDialogProps: Props passed to the dialog
 
 Remaining props are passed to the TextField component
+
+
+### Localisation
+
+https://github.com/tran-simon/material-duration-picker/issues/1#issuecomment-870100173
+
+[Sandbox example](https://codesandbox.io/s/material-duration-picker-translation-example-3xnps?file=/src/App.tsx:0-897)
