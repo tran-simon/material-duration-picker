@@ -99,7 +99,7 @@ export const getValueFromDuration = (duration: DurationType, views: DurationView
 
   return {
     acc,
-    value: value != null ? value + acc : null
+    value: value != null || acc ? (value || 0) + acc : null
   };
 }
 

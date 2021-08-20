@@ -4,11 +4,10 @@ import {DurationFieldsContainer, DurationFieldsContainerProps} from "../duration
 
 describe('DurationFieldsContainer', () => {
   const setDurationMock = jest.fn()
-  const emptyDuration = {};
 
   const Comp = ({
     views = ['hours', 'minutes'],
-    duration = {...emptyDuration, hours: 5, minutes: 2},
+    duration = {hours: 5, minutes: 2},
     setDuration = setDurationMock,
     ...props
   }: Partial<DurationFieldsContainerProps>) => {
@@ -43,7 +42,6 @@ describe('DurationFieldsContainer', () => {
   it('can render less views with greater duration', async () => {
     const utils = render(
       <Comp duration={{
-        ...emptyDuration,
         days: 1,
         hours: 1,
         minutes: 1,
@@ -55,10 +53,20 @@ describe('DurationFieldsContainer', () => {
     expect(fields[1].value).toBe("1.5")
   });
 
+  it('can render less views with greater duration when smaller views are undefined', async () => {
+    const utils = render(
+      <Comp duration={{
+        days: 2,
+      }}/>
+    );
+    const fields: any[] = utils.getAllByTitle('fieldTitle')
+    expect(fields[0].value).toBe("48")
+    expect(fields[1].value).toBe("")
+  });
+
   it('can setDuration to smaller than views show', async () => {
     const utils = render(
       <Comp duration={{
-        ...emptyDuration,
         hours: 1,
         minutes: 1
       }}/>
@@ -83,7 +91,6 @@ describe('DurationFieldsContainer', () => {
   it('can setDuration to smaller than views show', async () => {
     const utils = render(
       <Comp duration={{
-        ...emptyDuration,
         hours: 1,
         minutes: 1
       }}/>
