@@ -1,4 +1,4 @@
-import {durationToTime, getDurationOverflow, getDurationUnderflow, getValue, timeToDuration} from "../utils";
+import {durationToTime, getDurationOverflow, getDurationUnderflow, getValue, timeToDuration, toSecondsMultipliers} from "../utils";
 
 describe('getValue', ()=>{
   it('can getValue', ()=>{
@@ -61,6 +61,10 @@ describe('timeToDuration', ()=>{
     const time = -(604800 + 172800 + 10800 + 240 + 5);
 
     expect(timeToDuration(time)).toEqual(expected)
+  })
+
+  it('can timeToDuration with custom views', ()=>{
+    expect(timeToDuration(toSecondsMultipliers.days * 30, ['days'])).toEqual({days: 30})
   })
 })
 

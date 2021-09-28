@@ -37,10 +37,10 @@ export const toSecondsMultipliers: { [key in DurationView]: number } = {
   weeks: 60 * 60 * 24 * 7
 }
 
-export const timeToDuration = (time: number | null) => {
+export const timeToDuration = (time: number | null, views = VIEWS) => {
   const duration: DurationType = {};
 
-  VIEWS.reduce((value, view) => {
+  views.reduce((value, view) => {
     if (value === null) {
       return null
     }
