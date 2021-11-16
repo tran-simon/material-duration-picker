@@ -1,22 +1,24 @@
 import * as React from 'react'
 import {render, waitFor, screen, fireEvent} from '@testing-library/react'
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "../durationFieldsContainer";
+import {durationToTime, timeToDuration} from "../utils";
+import {useState} from "react";
 
 describe('DurationFieldsContainer', () => {
-  const setDurationMock = jest.fn()
+  const setValueMock = jest.fn()
 
   const Comp = ({
     views = ['hours', 'minutes'],
     duration = {hours: 5, minutes: 2},
-    setDuration = setDurationMock,
+    setValue= setValueMock,
     ...props
-  }: Partial<DurationFieldsContainerProps>) => {
+  }: any) => {
     return (
       <DurationFieldsContainer
         {...{
           views,
-          duration,
-          setDuration,
+          value: durationToTime(duration),
+          setValue,
           DurationFieldProps: {
             inputProps: {
               title: 'fieldTitle',
@@ -79,13 +81,10 @@ describe('DurationFieldsContainer', () => {
 
     expect(fields[0].value).toBe('61')
 
-    expect(setDurationMock).toHaveBeenCalledWith({
-      weeks: undefined,
-      days: undefined,
+    expect(setValueMock).toHaveBeenCalledWith(durationToTime({
       hours: 61,
       minutes: 1,
-      seconds: undefined
-    })
+    }));
   })
 
   it('can setDuration to smaller than views show', async () => {
@@ -103,12 +102,45 @@ describe('DurationFieldsContainer', () => {
 
     expect(fields[1].value).toBe('0.5')
 
-    expect(setDurationMock).toHaveBeenCalledWith({
-      weeks: undefined,
-      days: undefined,
+    expect(setValueMock).toHaveBeenCalledWith(durationToTime({
       hours: 1,
       minutes: 0.5,
-      seconds: undefined
-    })
+    }));
+  })
+
+  it('can set a view to a value smaller than 0', async ()=>{
+
+    const Comp = () => {
+
+      const [value, setValue] = useState<number | undefined>(60)
+
+      return <DurationFieldsContainer
+        {...{
+          views: ['days', 'minutes'],
+          value: value,
+          setValue,
+          DurationFieldProps: {
+            inputProps: {
+              title: 'fieldTitle',
+            },
+          },
+        }}
+      />
+    }
+
+    const utils = render(
+      <Comp/>
+    );
+
+    const fields: any[] = utils.getAllByTitle('fieldTitle')
+
+    fireEvent.change(fields[0], {target: {value: '0.5'}})
+
+    expect(fields[0].value).toBe('0.5')
+
+    fireEvent.blur(fields[0])
+
+    expect(fields[0].value).toBe('')
+    expect(fields[1].value).toBe('721')
   })
 })

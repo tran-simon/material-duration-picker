@@ -4,11 +4,12 @@ import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typo
 import {DurationType, DurationView, Labels} from "./types";
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "./durationFieldsContainer";
 import DefaultLabels from './defaultLabelsEn.json'
+import {timeToDuration} from "./utils";
 
 export type DurationDialogProps = DialogProps & {
-  duration: DurationType
+  time: number | undefined;
   onDismiss: () => void;
-  onAccept: (duration: DurationType) => void
+  onAccept: (time: number | undefined) => void
 
   views: DurationView[]
   labels?: Labels
@@ -19,7 +20,7 @@ export type DurationDialogProps = DialogProps & {
 }
 
 export const DurationDialog = ({
-  duration: _duration,
+  time: _time,
   onDismiss,
   onAccept,
   views,
@@ -30,11 +31,13 @@ export const DurationDialog = ({
   ...props
 }: DurationDialogProps) => {
   const theme = useTheme()
-  const [duration, setDuration] = useState(_duration)
+  const [time, setTime] = useState<number | undefined>(_time)
 
   useEffect(() => {
-    setDuration(_duration)
-  }, [_duration, setDuration])
+    setTime(_time)
+  }, [_time])
+
+  const duration = timeToDuration(time)
 
   const labels = {
     ...DefaultLabels,
@@ -56,7 +59,7 @@ export const DurationDialog = ({
         </Typography>
       </Toolbar>
       <DialogContent>
-        <DurationFieldsContainerComp views={views} duration={duration} setDuration={setDuration} {...DurationFieldsContainerProps}/>
+        <DurationFieldsContainerComp views={views} value={time} setValue={setTime} {...DurationFieldsContainerProps}/>
       </DialogContent>
       <DialogActions>
         <Button
@@ -69,7 +72,7 @@ export const DurationDialog = ({
         </Button>
         <Button
           onClick={() => {
-            onAccept(duration)
+            onAccept(time)
             onDismiss();
           }}
           color='primary'

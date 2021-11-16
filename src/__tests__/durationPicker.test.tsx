@@ -2,13 +2,12 @@ import * as React from 'react'
 import {render, waitFor} from "@testing-library/react";
 import {DurationPicker} from "../durationPicker";
 import * as DurationDialog from '../durationDialog'
+import {DurationField} from "../durationField";
+import {timeToDuration} from "../utils";
 
 
-jest.mock('../durationDialog', () => {
-  return {
-    DurationDialog: ({duration}: any) => (<div>{JSON.stringify(duration)}</div>)
-  }
-})
+jest.spyOn(DurationDialog, 'DurationDialog')
+  .mockImplementation(({time}: any)=> <div>{JSON.stringify(timeToDuration(time))}</div>)
 
 describe('durationPicker', () => {
   const onValueChange = jest.fn()

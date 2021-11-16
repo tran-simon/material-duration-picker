@@ -1,16 +1,15 @@
 import {Grid, GridProps} from '@material-ui/core';
 import * as React from 'react'
-import {Component, ComponentType, Dispatch} from 'react'
+import {ComponentType, Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
 import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
-import {getDurationOverflow, getDurationUnderflow, getValueFromDuration} from "./utils";
-
+import {durationToTime, timeToDuration} from "./utils";
 
 export type DurationFieldsContainerProps = {
   views: DurationView[];
-  duration: DurationType;
-  setDuration: Dispatch<DurationType>
+  value: number | undefined;
+  setValue: Dispatch<number | undefined>
   labels?: Labels
 
   GridContainerProps?: GridProps;
@@ -22,8 +21,8 @@ export type DurationFieldsContainerProps = {
 
 export const DurationFieldsContainer = ({
   views = [],
-  duration,
-  setDuration,
+  value,
+  setValue,
   labels: _labels,
   GridItemProps,
   GridContainerProps,
@@ -35,28 +34,28 @@ export const DurationFieldsContainer = ({
     ..._labels
   }
 
+  const duration = timeToDuration(value, views)
+
   return (
     <Grid container spacing={2} justify='space-around' {...GridContainerProps}>
-      {views.map((view, i) => {
-        const {value, acc} = getValueFromDuration(duration, views, i)
-
-        return (
-          <Grid item key={i} xs {...GridItemProps}>
-            <DurationFieldComp
-              labels={labels}
-              view={view}
-              value={value}
-              onConfirm={(v) => {
-                setDuration({
+      {views.map((view, i) => (
+        <Grid key={i} item xs {...GridItemProps}>
+          <DurationFieldComp
+            labels={labels}
+            view={view}
+            duration={duration}
+            onConfirm={(v) => {
+              setValue(
+                durationToTime({
                   ...duration,
-                  [view]: v != null ? v - acc : v
+                  [view]: v
                 })
-              }}
-              {...DurationFieldProps}
-            />
-          </Grid>
-        );
-      })}
+              )
+            }}
+            {...DurationFieldProps}
+          />
+        </Grid>
+      ))}
     </Grid>
   );
 }

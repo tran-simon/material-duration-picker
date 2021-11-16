@@ -10,7 +10,7 @@
 		"duration-picker",
 		"durations"
 	],
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"author": "tran-simon",

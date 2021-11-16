@@ -7,7 +7,7 @@ import {DurationType, DurationView} from "./types";
 
 
 export type DurationPickerProps = Partial<TextFieldProps> & {
-  value: number | null,
+  value: number | undefined,
   onValueChange: (value: number | undefined) => void;
   formatDuration: (duration: DurationType) => string
   disableEditDialog?: boolean;
@@ -53,11 +53,11 @@ export const DurationPicker = ({
     />
     {!disableEditDialog && (
       <DurationDialogComp
-        duration={duration}
+        time={value}
         open={open}
         onDismiss={() => setOpen(false)}
-        onAccept={(duration) => {
-          onValueChange(durationToTime(duration))
+        onAccept={(time) => {
+          onValueChange(time)
         }}
         views={views}
         formatDuration={formatDuration}

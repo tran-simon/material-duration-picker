@@ -1,19 +1,19 @@
-import {TextField, TextFieldProps} from "@material-ui/core";
+import {duration, TextField, TextFieldProps} from "@material-ui/core";
 import * as React from 'react'
 import {ComponentType, useEffect, useState} from "react";
-import {DurationView, Labels} from "./types";
+import {DurationType, DurationView, Labels} from "./types";
 import DefaultLabels from "./defaultLabelsEn.json";
 
 export type DurationFieldProps = TextFieldProps & {
-  value: number | null
-  onConfirm: (value: number | null) => void;
+  duration: DurationType,
+  onConfirm: (value: number | undefined) => void;
   view: DurationView;
   labels?: Labels;
   TextFieldComp?: ComponentType<TextFieldProps>;
 }
 
 export const DurationField = ({
-  value: _value,
+  duration,
   onConfirm,
   TextFieldComp = TextField,
   view,
@@ -25,17 +25,18 @@ export const DurationField = ({
     ..._labels
   }
 
-  const [value, setValue] = useState(_value)
+  const [value, setValue] = useState<number | undefined>(duration[view] )
+
   useEffect(() => {
-    setValue(_value)
-  }, [_value, setValue])
+    setValue(duration[view] )
+  }, [duration, setValue])
 
   return (
     <TextFieldComp
       type="number"
       onChange={({target}) => {
         const num = +target.value
-        setValue(isNaN(num) || !target.value ? null : num);
+        setValue(!isFinite(num) || target.value === '' ? undefined : num);
       }}
       onBlur={() => {
         onConfirm(value)
