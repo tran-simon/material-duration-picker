@@ -1,4 +1,4 @@
-import {Grid, GridProps} from '@material-ui/core';
+import {Grid, GridProps} from '@mui/material';
 import * as React from 'react'
 import {ComponentType, Dispatch} from 'react'
 import {DurationField, DurationFieldProps} from "./durationField";
@@ -37,7 +37,7 @@ export const DurationFieldsContainer = ({
   const duration = timeToDuration(value, views)
 
   return (
-    <Grid container spacing={2} justify='space-around' {...GridContainerProps}>
+    <Grid container spacing={2} justifyContent='space-around' {...GridContainerProps}>
       {views.map((view, i) => (
         <Grid key={i} item xs {...GridItemProps}>
           <DurationFieldComp

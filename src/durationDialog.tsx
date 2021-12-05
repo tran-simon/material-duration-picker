@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {ComponentType, useEffect, useState} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typography, useTheme} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogProps, Toolbar, Typography, useTheme} from "@mui/material";
 import {DurationType, DurationView, Labels} from "./types";
 import {DurationFieldsContainer, DurationFieldsContainerProps} from "./durationFieldsContainer";
 import DefaultLabels from './defaultLabelsEn.json'

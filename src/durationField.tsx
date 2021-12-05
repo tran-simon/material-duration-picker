@@ -1,4 +1,4 @@
-import {duration, TextField, TextFieldProps} from "@material-ui/core";
+import {duration, TextField, TextFieldProps} from "@mui/material";
 import * as React from 'react'
 import {ComponentType, useEffect, useState} from "react";
 import {DurationType, DurationView, Labels} from "./types";
